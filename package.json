@@ -1,0 +1,9 @@
+{
+  "name": "game-picker",
+  "version": "1.0.0",
+  "description": "Agentic Loop Demo — Game Recommendation Agent",
+  "scripts": {
+    "setup": "pip3 install -r requirements.txt -q",
+    "dev": "pip3 install -r requirements.txt -q && python3 server.py"
+  }
+}

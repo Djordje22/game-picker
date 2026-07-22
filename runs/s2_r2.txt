@@ -1,0 +1,319 @@
+
+  Query: story-driven single-player RPG, happy to pay up to $60
+
+
+============================================================
+  AGENT LOOP — Iteration 1
+============================================================
+
+  Agent says:
+    ## Interpretation and Decision Tree
+    
+    **Extracted Preferences:**
+    - Genre: Story-driven single-player RPG
+    - Budget: up to $60 (generous, premium intent)
+    - Platform: PC (default assumption)
+    - Vibe: Narrative-focused, single-player experience
+    
+    **Assumptions:** Platform is PC (not specified, but standard for story-driven RPGs); no anchor game named, so no ANCHOR branch.
+    
+    **Branch Taken:** PREMIUM BRANCH. The budget is generous ($60) and the intent is explicitly premium (story-driven single-player AAA). I will start with `search_deals` to find well-reviewed, narrative-focused RPGs within budget. I will NOT call `search_free_games` unless the paid results are weak.
+    
+    **Reasoning for tools:**
+    - Calling `search_deals` with price filter ($0-$60), high Metacritic threshold (70+), sorted by Metacritic to surface the best story-driven RPGs.
+    - Skipping `search_free_games`: narrative-rich, story-driven single-player RPGs are predominantly paid games; free offerings in this space are rare and typically lower-quality. The paid market is much stronger here.
+    
+    Let me search now:
+
+  Tool call: search_deals
+  Input: {'upper_price': 60, 'metacritic': 70, 'sort_by': 'Metacritic', 'page_size': 20}
+  Result preview: [
+  {
+    "title": "Disco Elysium - The Final Cut",
+    "sale_price": "$39.99",
+    "normal_price": "$39.99",
+    "savings_percent": "0%",
+    "metacritic_score": "97",
+    "steam_rating_percent": "92...
+
+  → Feeding 1 tool result(s) back to agent...
+
+============================================================
+  AGENT LOOP — Iteration 2
+============================================================
+
+  Agent says:
+    Excellent results. I have many strong candidates. Let me filter for the best story-driven RPGs from this list:
+    
+    **Strong story-driven single-player RPG candidates:**
+    1. **Baldur's Gate 3** - Metacritic 96, Steam 96%, $59.99 (premium CRPG with unmatched depth and narrative)
+    2. **Disco Elysium: The Final Cut** - Metacritic 97, Steam 92%, $39.99 (narrative-focused detective RPG, critically acclaimed)
+    3. **Persona 5 Royal** - Metacritic 95, Steam 96%, $59.99 (turn-based JRPG with strong story)
+    4. **Star Wars: Knights of the Old Republic** - Metacritic 93, Steam 91%, $9.99 (classic story-driven RPG)
+    5. **Divinity: Original Sin - Enhanced Edition** - Metacritic 94, Steam 86%, $39.99 (CRPG with narrative depth)
+    
+    **Candidates to exclude or deprioritize:**
+    - Half-Life 2, Half-Life, Portal 2, QUAKE, BioShock (and Infinite): These are story-driven games but FPS/puzzle-focused, not RPGs. They don't match the RPG genre request.
+    - Elden Ring: While excellent and story-present, it's not story-driven in the traditional sense; it's a challenging action-RPG, not ideal for narrative focus.
+    - Civ IV, Cobalt Core, Hades II: Strategy or roguelike-focused, not traditional story-driven RPGs.
+    
+    Now let me cross-validate my top pick (Disco Elysium or Baldur's Gate 3) to confirm pricing:
+
+  Tool call: search_game_by_title
+  Input: {'title': 'Disco Elysium Final Cut', 'limit': 1}
+  Result preview: [
+  {
+    "gameID": "227942",
+    "steamAppID": "632470",
+    "cheapest": "35.99",
+    "cheapestDealID": "AUvSqG%2BjgjZBM4JGg0dEDho7mk8Sxn2CpCvml8OEW40%3D",
+    "external": "Disco Elysium - The Final ...
+
+  Tool call: search_game_by_title
+  Input: {'title': "Baldur's Gate 3", 'limit': 1}
+  Result preview: [
+  {
+    "gameID": "202278",
+    "steamAppID": "1086940",
+    "cheapest": "59.99",
+    "cheapestDealID": "KR6JzYIE5jQz4X%2FqfqZL7uqeWAALnY%2Beipr2lwHIFGI%3D",
+    "external": "Baldur's Gate 3",
+    "...
+
+  Tool call: search_game_by_title
+  Input: {'title': 'Persona 5 Royal', 'limit': 1}
+  Result preview: [
+  {
+    "gameID": "252306",
+    "steamAppID": "1687950",
+    "cheapest": "50.98",
+    "cheapestDealID": "umKtFpcd%2BCEVAwmG7uybgULndFuKkbhBX9YY%2FGJBWFM%3D",
+    "external": "Persona 5 Royal",
+    "...
+
+  → Feeding 3 tool result(s) back to agent...
+
+============================================================
+  AGENT LOOP — Iteration 3
+============================================================
+
+  Agent says:
+    Perfect. Price verification complete. Now let me score my top 3 candidates:
+    
+    ## Scoring
+    
+    ### #1: Disco Elysium - The Final Cut
+    - **Genre Match:** 10/10. Detective RPG with deep narrative focus. Exact match for story-driven RPG.
+    - **Budget Fit:** 10/10. Priced at $35.99 (verified cheaper than original search), well under $60 budget.
+    - **Rating Score:** 9.45/10. Metacritic 97 (9.7), Steam 92% (9.2). Average: 9.45.
+    - **Vibe Match:** 10/10. This is a narrative masterpiece: dialogue-heavy, choice-driven, single-player story experience. Peak story-driven vibe.
+    - **Total: 39.45/40**
+    
+    Why: Disco Elysium is a narrative gem. It's a skill-based detective RPG where your choices shape the story, branching dialogue is central, and the writing is critically acclaimed. It's half the price of your budget and delivers pure story-driven RPG experience.
+    
+    ### #2: Baldur's Gate 3
+    - **Genre Match:** 10/10. Classic CRPG with deep narrative, choice-driven gameplay. Exact RPG match.
+    - **Budget Fit:** 9/10. At $59.99, right at the budget limit, but no room to spare. Still within budget.
+    - **Rating Score:** 9.6/10. Metacritic 96 (9.6), Steam 96% (9.6). Average: 9.6.
+    - **Vibe Match:** 9/10. Excellent story-driven experience with massive branching narratives and choice impact. Slight dip from 10 because it's also known for replayability and gameplay depth, not purely story-focused (some players approach it as tactical combat-heavy).
+    - **Total: 37.6/40**
+    
+    Why: Baldur's Gate 3 is a masterpiece of modern CRPGs with unmatched narrative depth, branching storylines, and choice consequences. It's at your budget ceiling but offers 100+ hours of story-driven gameplay.
+    
+    ### #3: Persona 5 Royal
+    - **Genre Match:** 10/10. Turn-based JRPG with strong narrative. Perfect genre match.
+    - **Budget Fit:** 9/10. Cheapest price found is $50.98, well under budget with room to spare.
+    - **Rating Score:** 9.55/10. Metacritic 95 (9.5), Steam 96% (9.6). Average: 9.55.
+    - **Vibe Match:** 9/10. Persona 5 Royal is story-rich with character development, social bonds, and a strong overarching narrative. It's slightly less "pure" narrative-driven than Disco Elysium because gameplay (dungeon crawling, social sim) is equally emphasized, but the story is excellent.
+    - **Total: 37.55/40**
+    
+    Why: Persona 5 Royal is a story-rich JRPG with 80-100 hours of gameplay, excellent character narratives, and a deeply engaging main story. The social links and character relationships are central to the narrative experience.
+    
+    ---
+    
+    ## Quality Gate Check
+    
+    All three candidates score well above 25/40:
+    - #1: 39.45/40 ✓
+    - #2: 37.6/40 ✓
+    - #3: 37.55/40 ✓
+    
+    Proceeding to final recommendation.
+    
+    ---
+    
+    RECOMMENDATIONS
+    ===============
+    
+    **Interpreted request:** Story-driven single-player RPG with narrative focus; budget up to $60; PC platform; premium intent (AAA-quality storytelling).
+    
+    **Assumptions:** Platform is PC (standard for story-driven RPGs, not specified by user); "story-driven" implies choice-driven narrative, branching storylines, and character-focused gameplay.
+    
+    **#1: Disco Elysium - The Final Cut (Score: 39.45/40)**
+    Source: CheapShark Deal (Steam)
+    Genre: Detective RPG, noir narrative | Price: $35.99 (verified) | Rating: Metacritic 97, Steam 92%
+    
+    Genre Match: 10/10, detective RPG is quintessential story-driven RPG.
+    Budget Fit: 10/10, $35.99 is 40% under budget with room to spare.
+    Rating Score: 9.45/10, near-universal critical acclaim (97 Metacritic, 92% Steam).
+    Vibe Match: 10/10, dialogue and choice-driven narrative is the entire core mechanic.
+    
+    Why this game: Disco Elysium is a masterclass in narrative-driven RPG design. It's a detective game where your dialogue choices, character stats, and moral decisions shape the story. With minimal combat and maximum narrative depth, it's pure story-driven single-player RPG. The writing is philosophical, darkly humorous, and critically acclaimed. At $35.99, it's an exceptional value.
+    
+    **#2: Baldur's Gate 3 (Score: 37.6/40)**
+    Source: CheapShark Deal (Steam)
+    Genre: Fantasy CRPG, action RPG | Price: $59.99 (verified) | Rating: Metacritic 96, Steam 96%
+    
+    Genre Match: 10/10, classic CRPG with narrative as a central pillar.
+    Budget Fit: 9/10, exactly at your $60 budget limit, no savings but within budget.
+    Rating Score: 9.6/10, exceptional critical and user ratings across both platforms.
+    Vibe Match: 9/10, expansive branching narratives with massive choice impact, though gameplay and combat are also core pillars.
+    
+    Why this game: Baldur's Gate 3 is a modern CRPG masterpiece offering 100+ hours of story-driven gameplay. Nearly every quest has multiple solutions, character relationships deeply influence outcomes, and your choices have real narrative consequences. The story is layered, cinematic, and emotionally engaging. It uses your budget ceiling but delivers unmatched narrative scope.
+    
+    **#3: Persona 5 Royal (Score: 37.55/40)**
+    Source: CheapShark Deal (Steam)
+    Genre: Turn-based JRPG, social sim | Price: $50.98 (verified, cheaper than original $59.99) | Rating: Metacritic 95, Steam 96%
+    
+    Genre Match: 10/10, JRPG with narrative-focused story and character development.
+    Budget Fit: 9/10, $50.98 is under budget with ~$9 savings.
+    Rating Score: 9.55/10, near-universal acclaim (95 Metacritic, 96% Steam).
+    Vibe Match: 9/10, character narratives and social bonds are integral to story, though turn-based dungeon gameplay is equally important.
+    
+    Why this game: Persona 5 Royal is a story-rich JRPG with 80-100 hours of gameplay, stunning presentation, and deeply memorable characters. Social links, character bonds, and a strong overarching narrative about rebellion and identity drive the experience. The story is emotionally resonant and character-centric, with excellent pacing across seasons.
+    
+    ---
+    
+    **DECISION SUMMARY:**
+    
+    Branch taken: PREMIUM BRANCH. Budget is generous ($60), intent is explicitly story-driven single-player (premium narrative focus). Paid games are clearly superior in this category.
+    
+    Tools called (in order):
+    1. search_deals (Metacritic 70+, price $0-$60, sorted by Metacritic to surface top-rated story RPGs)
+    2. search_game_by_title (cross-validation of top 3 picks: Disco Elysium, Baldur's Gate 3, Persona 5 Royal)
+    
+    Tools skipped:
+    - search_free_games: Narrative-driven single-player RPGs are predominantly paid, high-quality free games in this category are extremely rare. Premium story-driven RPGs require substantial development budgets, making the paid market far stronger.
+    
+    Broadening rounds: 0. Initial search returned 15+ candidates with strong narrative focus and ratings above 90 Metacritic. No broadening needed.
+    
+    Price check: Verified. Disco Elysium found cheaper at $35.99 (vs original $39.99 from search_deals), Baldur's Gate 3 confirmed at $59.99, Persona 5 Royal found cheaper at $50.98 (vs original $59.99). All three prices corrected/verified.
+    
+    Searched 15 games, filtered to 5 strong candidates (excluding shooters, puzzlers, and non-narrative-focused action games), final recommendation set to top 3.
+    
+    Top pick (Disco Elysium) scores 39.45/40, beating #2 (Baldur's Gate 3) by 1.85 points. Key differentiator: Disco Elysium is pure narrative-driven gameplay with minimal combat distraction, exactly matching your request, plus 40% cheaper than budget ceiling with highest Metacritic score (97). It's the pinnacle of story-driven RPG design.
+
+============================================================
+  AGENT DONE — 3 iteration(s)
+  RUN SUMMARY
+    Iterations:   3
+    Tools called: search_deals -> search_game_by_title -> search_game_by_title -> search_game_by_title
+============================================================
+
+============================================================
+  FINAL RECOMMENDATION
+============================================================
+Perfect. Price verification complete. Now let me score my top 3 candidates:
+
+## Scoring
+
+### #1: Disco Elysium - The Final Cut
+- **Genre Match:** 10/10. Detective RPG with deep narrative focus. Exact match for story-driven RPG.
+- **Budget Fit:** 10/10. Priced at $35.99 (verified cheaper than original search), well under $60 budget.
+- **Rating Score:** 9.45/10. Metacritic 97 (9.7), Steam 92% (9.2). Average: 9.45.
+- **Vibe Match:** 10/10. This is a narrative masterpiece: dialogue-heavy, choice-driven, single-player story experience. Peak story-driven vibe.
+- **Total: 39.45/40**
+
+Why: Disco Elysium is a narrative gem. It's a skill-based detective RPG where your choices shape the story, branching dialogue is central, and the writing is critically acclaimed. It's half the price of your budget and delivers pure story-driven RPG experience.
+
+### #2: Baldur's Gate 3
+- **Genre Match:** 10/10. Classic CRPG with deep narrative, choice-driven gameplay. Exact RPG match.
+- **Budget Fit:** 9/10. At $59.99, right at the budget limit, but no room to spare. Still within budget.
+- **Rating Score:** 9.6/10. Metacritic 96 (9.6), Steam 96% (9.6). Average: 9.6.
+- **Vibe Match:** 9/10. Excellent story-driven experience with massive branching narratives and choice impact. Slight dip from 10 because it's also known for replayability and gameplay depth, not purely story-focused (some players approach it as tactical combat-heavy).
+- **Total: 37.6/40**
+
+Why: Baldur's Gate 3 is a masterpiece of modern CRPGs with unmatched narrative depth, branching storylines, and choice consequences. It's at your budget ceiling but offers 100+ hours of story-driven gameplay.
+
+### #3: Persona 5 Royal
+- **Genre Match:** 10/10. Turn-based JRPG with strong narrative. Perfect genre match.
+- **Budget Fit:** 9/10. Cheapest price found is $50.98, well under budget with room to spare.
+- **Rating Score:** 9.55/10. Metacritic 95 (9.5), Steam 96% (9.6). Average: 9.55.
+- **Vibe Match:** 9/10. Persona 5 Royal is story-rich with character development, social bonds, and a strong overarching narrative. It's slightly less "pure" narrative-driven than Disco Elysium because gameplay (dungeon crawling, social sim) is equally emphasized, but the story is excellent.
+- **Total: 37.55/40**
+
+Why: Persona 5 Royal is a story-rich JRPG with 80-100 hours of gameplay, excellent character narratives, and a deeply engaging main story. The social links and character relationships are central to the narrative experience.
+
+---
+
+## Quality Gate Check
+
+All three candidates score well above 25/40:
+- #1: 39.45/40 ✓
+- #2: 37.6/40 ✓
+- #3: 37.55/40 ✓
+
+Proceeding to final recommendation.
+
+---
+
+RECOMMENDATIONS
+===============
+
+**Interpreted request:** Story-driven single-player RPG with narrative focus; budget up to $60; PC platform; premium intent (AAA-quality storytelling).
+
+**Assumptions:** Platform is PC (standard for story-driven RPGs, not specified by user); "story-driven" implies choice-driven narrative, branching storylines, and character-focused gameplay.
+
+**#1: Disco Elysium - The Final Cut (Score: 39.45/40)**
+Source: CheapShark Deal (Steam)
+Genre: Detective RPG, noir narrative | Price: $35.99 (verified) | Rating: Metacritic 97, Steam 92%
+
+Genre Match: 10/10, detective RPG is quintessential story-driven RPG.
+Budget Fit: 10/10, $35.99 is 40% under budget with room to spare.
+Rating Score: 9.45/10, near-universal critical acclaim (97 Metacritic, 92% Steam).
+Vibe Match: 10/10, dialogue and choice-driven narrative is the entire core mechanic.
+
+Why this game: Disco Elysium is a masterclass in narrative-driven RPG design. It's a detective game where your dialogue choices, character stats, and moral decisions shape the story. With minimal combat and maximum narrative depth, it's pure story-driven single-player RPG. The writing is philosophical, darkly humorous, and critically acclaimed. At $35.99, it's an exceptional value.
+
+**#2: Baldur's Gate 3 (Score: 37.6/40)**
+Source: CheapShark Deal (Steam)
+Genre: Fantasy CRPG, action RPG | Price: $59.99 (verified) | Rating: Metacritic 96, Steam 96%
+
+Genre Match: 10/10, classic CRPG with narrative as a central pillar.
+Budget Fit: 9/10, exactly at your $60 budget limit, no savings but within budget.
+Rating Score: 9.6/10, exceptional critical and user ratings across both platforms.
+Vibe Match: 9/10, expansive branching narratives with massive choice impact, though gameplay and combat are also core pillars.
+
+Why this game: Baldur's Gate 3 is a modern CRPG masterpiece offering 100+ hours of story-driven gameplay. Nearly every quest has multiple solutions, character relationships deeply influence outcomes, and your choices have real narrative consequences. The story is layered, cinematic, and emotionally engaging. It uses your budget ceiling but delivers unmatched narrative scope.
+
+**#3: Persona 5 Royal (Score: 37.55/40)**
+Source: CheapShark Deal (Steam)
+Genre: Turn-based JRPG, social sim | Price: $50.98 (verified, cheaper than original $59.99) | Rating: Metacritic 95, Steam 96%
+
+Genre Match: 10/10, JRPG with narrative-focused story and character development.
+Budget Fit: 9/10, $50.98 is under budget with ~$9 savings.
+Rating Score: 9.55/10, near-universal acclaim (95 Metacritic, 96% Steam).
+Vibe Match: 9/10, character narratives and social bonds are integral to story, though turn-based dungeon gameplay is equally important.
+
+Why this game: Persona 5 Royal is a story-rich JRPG with 80-100 hours of gameplay, stunning presentation, and deeply memorable characters. Social links, character bonds, and a strong overarching narrative about rebellion and identity drive the experience. The story is emotionally resonant and character-centric, with excellent pacing across seasons.
+
+---
+
+**DECISION SUMMARY:**
+
+Branch taken: PREMIUM BRANCH. Budget is generous ($60), intent is explicitly story-driven single-player (premium narrative focus). Paid games are clearly superior in this category.
+
+Tools called (in order):
+1. search_deals (Metacritic 70+, price $0-$60, sorted by Metacritic to surface top-rated story RPGs)
+2. search_game_by_title (cross-validation of top 3 picks: Disco Elysium, Baldur's Gate 3, Persona 5 Royal)
+
+Tools skipped:
+- search_free_games: Narrative-driven single-player RPGs are predominantly paid, high-quality free games in this category are extremely rare. Premium story-driven RPGs require substantial development budgets, making the paid market far stronger.
+
+Broadening rounds: 0. Initial search returned 15+ candidates with strong narrative focus and ratings above 90 Metacritic. No broadening needed.
+
+Price check: Verified. Disco Elysium found cheaper at $35.99 (vs original $39.99 from search_deals), Baldur's Gate 3 confirmed at $59.99, Persona 5 Royal found cheaper at $50.98 (vs original $59.99). All three prices corrected/verified.
+
+Searched 15 games, filtered to 5 strong candidates (excluding shooters, puzzlers, and non-narrative-focused action games), final recommendation set to top 3.
+
+Top pick (Disco Elysium) scores 39.45/40, beating #2 (Baldur's Gate 3) by 1.85 points. Key differentiator: Disco Elysium is pure narrative-driven gameplay with minimal combat distraction, exactly matching your request, plus 40% cheaper than budget ceiling with highest Metacritic score (97). It's the pinnacle of story-driven RPG design.

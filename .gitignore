@@ -1,0 +1,8 @@
+# Secrets: the Anthropic key lives here and must never be committed.
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/

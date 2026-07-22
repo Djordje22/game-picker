@@ -1,0 +1,452 @@
+
+  Query: free MMORPG for a low-spec PC
+
+
+============================================================
+  AGENT LOOP — Iteration 1
+============================================================
+
+  Agent says:
+    # Interpreting Your Request
+    
+    Let me extract your preferences:
+    
+    - **Genre**: MMORPG (massively multiplayer online role-playing game)
+    - **Budget**: Free ($0)
+    - **Platform**: PC
+    - **Vibe**: Not explicitly stated; I'll infer "social, community-focused" from the MMORPG genre, but remain open to competitive or cooperative vibes depending on what games offer.
+    - **Low-spec PC**: This is a key constraint. I'll prioritize games known for minimal system requirements.
+    
+    **Assumptions**: 
+    - Platform is PC (not browser, though some F2P MMORPGs run in both).
+    - "Low-spec" means older hardware, integrated graphics, or limited RAM. I'll filter for games that are known to run well on modest systems.
+    
+    **Branch taken**: FREE BRANCH. Budget is $0, so I will call `search_free_games` only and skip `search_deals`. This is the correct decision for a free-budget request.
+    
+    ---
+    
+    # Tool Calls
+    
+    I'm now searching the Free-to-Play Games database for MMORPGs optimized for low-spec PCs.
+
+  Tool call: search_free_games
+  Input: {'category': 'mmorpg', 'platform': 'pc', 'sort_by': 'popularity'}
+  Result preview: [
+  {
+    "id": 642,
+    "title": "Neverness to Everness",
+    "thumbnail": "https://www.freetogame.com/g/642/thumbnail.jpg",
+    "short_description": "Neverness to Everness is a gacha game that blend...
+
+  Tool call: search_free_games
+  Input: {'category': 'low-spec', 'platform': 'pc', 'sort_by': 'popularity'}
+  Result preview: [
+  {
+    "id": 16,
+    "title": "Roblox",
+    "thumbnail": "https://www.freetogame.com/g/16/thumbnail.jpg",
+    "short_description": "A free to play sandbox MMO with lots of creation options.",
+    "...
+
+  → Feeding 2 tool result(s) back to agent...
+
+============================================================
+  AGENT LOOP — Iteration 2
+============================================================
+
+  Agent says:
+    Good start! I found several free MMORPGs. Now I need to get more details on the strongest candidates that are known for low-spec friendliness. Let me retrieve detailed info on the games most likely to run on older hardware:
+    
+    - **La Tale Evolved**: 2D side-scroller (inherently low-spec)
+    - **Neverwinter**: Established MMORPG with a long history of running on lower-end systems
+    - **Digimon Masters Online**: Older 3D MMORPG, likely optimized for a wider range of hardware
+    - **Rohan: Blood Feud**: Older PvP-focused MMORPG (more likely to be low-spec friendly)
+    - **Cabal Online**: Older fast-paced MMORPG
+    
+    Let me fetch details on the top candidates:
+
+  Tool call: get_free_game_details
+  Input: {'game_id': 322}
+  Result preview: {
+  "id": 322,
+  "title": "La Tale Evolved",
+  "thumbnail": "https://www.freetogame.com/g/322/thumbnail.jpg",
+  "status": "Live",
+  "short_description": "A 2D side-scrolling fantasy MMORPG with anime-...
+
+  Tool call: get_free_game_details
+  Input: {'game_id': 11}
+  Result preview: {
+  "id": 11,
+  "title": "Neverwinter",
+  "thumbnail": "https://www.freetogame.com/g/11/thumbnail.jpg",
+  "status": "Live",
+  "short_description": "A free-to-play 3D action MMORPG based on the acclaim...
+
+  Tool call: get_free_game_details
+  Input: {'game_id': 262}
+  Result preview: {
+  "id": 262,
+  "title": "Digimon Masters Online",
+  "thumbnail": "https://www.freetogame.com/g/262/thumbnail.jpg",
+  "status": "Live",
+  "short_description": "A free to play 3D MMORPG based on the p...
+
+  Tool call: get_free_game_details
+  Input: {'game_id': 300}
+  Result preview: {
+  "id": 300,
+  "title": "Rohan: Blood Feud",
+  "thumbnail": "https://www.freetogame.com/g/300/thumbnail.jpg",
+  "status": "Live",
+  "short_description": "A free-to-play medieval MMORPG highly-focuse...
+
+  Tool call: get_free_game_details
+  Input: {'game_id': 304}
+  Result preview: {
+  "id": 304,
+  "title": "Cabal Online",
+  "thumbnail": "https://www.freetogame.com/g/304/thumbnail.jpg",
+  "status": "Live",
+  "short_description": "A free to play fast-paced skill-based MMORPG in a...
+
+  → Feeding 5 tool result(s) back to agent...
+
+============================================================
+  AGENT LOOP — Iteration 3
+============================================================
+
+  Agent says:
+    Perfect! I now have solid details. Let me also check a couple more candidates for completeness:
+
+  Tool call: get_free_game_details
+  Input: {'game_id': 559}
+  Result preview: {
+  "id": 559,
+  "title": "Tales Of Yore",
+  "thumbnail": "https://www.freetogame.com/g/559/thumbnail.jpg",
+  "status": "Live",
+  "short_description": "A 2D MMORPG with lots of RPG tropes.",
+  "descri...
+
+  Tool call: get_free_game_details
+  Input: {'game_id': 590}
+  Result preview: {
+  "id": 590,
+  "title": "Throne And Liberty",
+  "thumbnail": "https://www.freetogame.com/g/590/thumbnail.jpg",
+  "status": "Live",
+  "short_description": "A free-to-play multi-platorm MMORPG from NC...
+
+  → Feeding 2 tool result(s) back to agent...
+
+============================================================
+  AGENT LOOP — Iteration 4
+============================================================
+
+  Agent says:
+    Excellent! Now I have detailed information on multiple MMORPGs. Let me analyze and score my candidates:
+    
+    ---
+    
+    ## Scoring Analysis
+    
+    I'm evaluating these candidates on four dimensions (0-10 each):
+    
+    ### Candidate 1: La Tale Evolved (ID 322)
+    - **Genre Match**: 10. Explicitly tagged MMORPG, exactly what user wants.
+    - **Budget Fit**: 10. Free game.
+    - **Rating Score**: 5 (unrated; neutral assign).
+    - **Vibe Match**: 7. 2D side-scroller, anime-inspired, community-focused PvP and Coliseum. Balanced between casual and competitive.
+    - **System Requirements**: Pentium 4 2.0 GHz, 1 GB RAM, GeForce4 MX—extremely low-spec friendly.
+    - **Total**: 32/40
+    
+    ### Candidate 2: Cabal Online (ID 304)
+    - **Genre Match**: 10. MMORPG, perfect match.
+    - **Budget Fit**: 10. Free game.
+    - **Rating Score**: 5 (unrated).
+    - **Vibe Match**: 8. Fast-paced skill-based combat, strong PvP and PvE focus. Dynamic gameplay appeals to both casual and hardcore players.
+    - **System Requirements**: Pentium 4 2.0 GHz, 1 GB RAM, GeForce 6 series—very low-spec friendly.
+    - **Total**: 33/40
+    
+    ### Candidate 3: Digimon Masters Online (ID 262)
+    - **Genre Match**: 10. MMORPG, perfect match.
+    - **Budget Fit**: 10. Free game.
+    - **Rating Score**: 5 (unrated).
+    - **Vibe Match**: 8. Creature-collection focus, real-time battles, social elements. Appeals to anime/Digimon fans and casual multiplayer players.
+    - **System Requirements**: Intel Pentium 4, 256 MB RAM, GeForce FX5200—extremely low-spec friendly (the most lenient I've seen).
+    - **Total**: 33/40
+    
+    ### Candidate 4: Neverwinter (ID 11)
+    - **Genre Match**: 10. Action MMORPG, perfect match.
+    - **Budget Fit**: 10. Free game.
+    - **Rating Score**: 5 (unrated).
+    - **Vibe Match**: 8. Story-driven D&D experience, dynamic action combat, community tools (Foundry). Appeals to fantasy fans and players seeking narrative depth.
+    - **System Requirements**: Dual-core 2.0 GHz, 1 GB RAM, GeForce 6800 or ATI X850—moderately low-spec, decent support for older systems.
+    - **Total**: 33/40
+    
+    ### Candidate 5: Tales of Yore (ID 559)
+    - **Genre Match**: 10. 2D MMORPG, perfect match.
+    - **Budget Fit**: 10. Free game.
+    - **Rating Score**: 5 (unrated).
+    - **Vibe Match**: 7. Retro 2D aesthetic, crafting and exploration focused, slower paced. More relaxing than competitive.
+    - **System Requirements**: Windows 10 64-bit, 2 GHz, 4 GB RAM—higher bar for low-spec (requires 4 GB RAM), less ideal for truly older hardware.
+    - **Total**: 32/40
+    
+    ### Candidate 6: Throne and Liberty (ID 590)
+    - **Genre Match**: 10. MMORPG, perfect match.
+    - **Budget Fit**: 10. Free game.
+    - **Rating Score**: 5 (unrated).
+    - **Vibe Match**: 7. Large-scale PvPvE, transformation mechanics, cross-platform. Community-focused but more demanding.
+    - **System Requirements**: Core i5-6500, 8 GB RAM, GTX 960, 63 GB storage—NOT low-spec friendly. Does not fit the constraint.
+    - **Total**: 27/40 (fails the low-spec requirement, lower recommendation weight)
+    
+    ---
+    
+    ## Quality Gate Check
+    
+    I have 5 candidates scoring 32-33/40, all well above the 25/40 threshold. All of the top 5 are excellent matches for free low-spec MMORPGs. Throne and Liberty does not meet the low-spec requirement despite scoring well on other dimensions.
+    
+    **Quality gate: PASS.** Proceeding to final recommendations.
+    
+    ---
+    
+    # RECOMMENDATIONS
+    
+    **Interpreted request**: MMORPG, free, PC, low-spec hardware friendly
+    
+    **Assumptions**: None; "low-spec PC" clearly indicates older or modest hardware. Platform defaulted to Windows (standard for low-spec MMORPGs).
+    
+    ---
+    
+    ## #1: Cabal Online (Score: 33/40)
+    **Source**: Free-to-Play Games Database
+    **Genre**: MMORPG (Action/Fantasy) | **Price**: Free | **Rating**: Unrated
+    
+    - **Genre Match**: 10/10, exact MMORPG match.
+    - **Budget Fit**: 10/10, completely free.
+    - **Rating Score**: 5/10, unrated game (neutral assign).
+    - **Vibe Match**: 8/10, fast-paced skill-based combat blends PvP, PvE, guild warfare, and world control. Engages both competitive and cooperative players.
+    
+    **Why this game**: Cabal Online is a mature, well-established F2P MMORPG from 2016 with extremely light system requirements (Pentium 4 2.0 GHz, 1 GB RAM, GeForce 6 series). Its fast-paced skill-based combat and rich PvP and PvE content create a dynamic multiplayer experience without demanding premium hardware. The guild system and nation wars foster community engagement.
+    
+    ---
+    
+    ## #2: Digimon Masters Online (Score: 33/40)
+    **Source**: Free-to-Play Games Database
+    **Genre**: MMORPG (Fantasy/Creature-Collection) | **Price**: Free | **Rating**: Unrated
+    
+    - **Genre Match**: 10/10, exact MMORPG match.
+    - **Budget Fit**: 10/10, completely free.
+    - **Rating Score**: 5/10, unrated game (neutral assign).
+    - **Vibe Match**: 8/10, creature-collection mechanics, real-time battles, and anime-inspired setting appeal to casual and co-op-focused players.
+    
+    **Why this game**: Digimon Masters Online has the most forgiving system requirements of any candidate here (Intel Pentium 4, just 256 MB RAM, GeForce FX5200). It is ideal for truly low-spec machines. The Digimon franchise appeal, real-time co-op battles, and pet management offer a more relaxed, collection-focused multiplayer experience than pure combat-driven MMORPGs.
+    
+    ---
+    
+    ## #3: Neverwinter (Score: 33/40)
+    **Source**: Free-to-Play Games Database
+    **Genre**: MMORPG (Action/D&D Fantasy) | **Price**: Free | **Rating**: Unrated
+    
+    - **Genre Match**: 10/10, exact MMORPG match.
+    - **Budget Fit**: 10/10, completely free.
+    - **Rating Score**: 5/10, unrated game (neutral assign).
+    - **Vibe Match**: 8/10, story-driven D&D fantasy, dynamic action combat, and community creation tools (Foundry) deliver narrative depth and social engagement.
+    
+    **Why this game**: Neverwinter is a long-established F2P MMORPG (since 2013) with solid low-spec support (dual-core 2.0 GHz, 1 GB RAM, GeForce 6800+). It stands out for story depth and D&D world immersion. The Foundry tool lets players create and share adventures, extending content and community. Best for players seeking narrative-driven multiplayer fantasy.
+    
+    ---
+    
+    ## FREE ALTERNATIVE (if you want ultra-minimal graphics and storage):
+    **La Tale Evolved** (Score: 32/40)
+    **Source**: Free-to-Play Games Database
+    **Genre**: MMORPG (2D Fantasy) | **Price**: Free | **Rating**: Unrated
+    
+    - **Genre Match**: 10/10, exact MMORPG match.
+    - **Budget Fit**: 10/10, completely free.
+    - **Rating Score**: 5/10, unrated game (neutral assign).
+    - **Vibe Match**: 7/10, 2D side-scroller with anime graphics, balanced PvP/Coliseum and casual exploration. Lower performance bar than 3D alternatives.
+    
+    **Why this game**: La Tale Evolved's 2D side-scrolling style requires minimal graphics power (GeForce4 MX, Pentium 4 2.0 GHz, 1 GB RAM, only 2 GB storage). Ideal if your PC is extremely resource-constrained. Anime-inspired art, customization focus, and fair cash-shop mechanics make it friendly for new and returning players.
+    
+    ---
+    
+    ## DECISION SUMMARY
+    
+    **Branch taken**: FREE BRANCH. Budget is $0, so I searched free games only and skipped search_deals (correct decision for free requests).
+    
+    **Tools called** (in order):
+    1. search_free_games (category: mmorpg, platform: pc) - found 15 MMORPG candidates
+    2. search_free_games (category: low-spec, platform: pc) - cross-validated for low-spec optimization
+    3. get_free_game_details (IDs: 322, 11, 262, 300, 304, 559, 590) - retrieved full descriptions, screenshots, and system requirements
+    
+    **Tools skipped**:
+    - search_deals: correctly skipped because budget is free ($0); no paid games needed.
+    - search_game_by_title: correctly skipped because no anchor game was named by the user.
+    
+    **Broadening rounds**: 0. First search returned strong results across the free MMORPG category; no broadening was needed.
+    
+    **Price check**: Not applicable (all games are free).
+    
+    **Searched 15 games, filtered to 5 strong candidates** (scored 32-33/40, far above the 25/40 gate). The top pick, Cabal Online, scores 33/40, tied with two close runners (Digimon Masters Online and Neverwinter) but differentiated by its fast-paced skill-based combat and mature guild warfare system.
+    
+    **Key differentiator**: Cabal Online balances the lowest-spec performance bar with the richest end-game content (PvP, nation wars, guild control). Digimon Masters Online is the best pure low-spec choice if your hardware is extremely constrained. Neverwinter is the best for story-seekers. All three run on hardware from the early 2000s with minimal bloat.
+
+============================================================
+  AGENT DONE — 4 iteration(s)
+  RUN SUMMARY
+    Iterations:   4
+    Tools called: search_free_games -> search_free_games -> get_free_game_details -> get_free_game_details -> get_free_game_details -> get_free_game_details -> get_free_game_details -> get_free_game_details -> get_free_game_details
+============================================================
+
+============================================================
+  FINAL RECOMMENDATION
+============================================================
+Excellent! Now I have detailed information on multiple MMORPGs. Let me analyze and score my candidates:
+
+---
+
+## Scoring Analysis
+
+I'm evaluating these candidates on four dimensions (0-10 each):
+
+### Candidate 1: La Tale Evolved (ID 322)
+- **Genre Match**: 10. Explicitly tagged MMORPG, exactly what user wants.
+- **Budget Fit**: 10. Free game.
+- **Rating Score**: 5 (unrated; neutral assign).
+- **Vibe Match**: 7. 2D side-scroller, anime-inspired, community-focused PvP and Coliseum. Balanced between casual and competitive.
+- **System Requirements**: Pentium 4 2.0 GHz, 1 GB RAM, GeForce4 MX—extremely low-spec friendly.
+- **Total**: 32/40
+
+### Candidate 2: Cabal Online (ID 304)
+- **Genre Match**: 10. MMORPG, perfect match.
+- **Budget Fit**: 10. Free game.
+- **Rating Score**: 5 (unrated).
+- **Vibe Match**: 8. Fast-paced skill-based combat, strong PvP and PvE focus. Dynamic gameplay appeals to both casual and hardcore players.
+- **System Requirements**: Pentium 4 2.0 GHz, 1 GB RAM, GeForce 6 series—very low-spec friendly.
+- **Total**: 33/40
+
+### Candidate 3: Digimon Masters Online (ID 262)
+- **Genre Match**: 10. MMORPG, perfect match.
+- **Budget Fit**: 10. Free game.
+- **Rating Score**: 5 (unrated).
+- **Vibe Match**: 8. Creature-collection focus, real-time battles, social elements. Appeals to anime/Digimon fans and casual multiplayer players.
+- **System Requirements**: Intel Pentium 4, 256 MB RAM, GeForce FX5200—extremely low-spec friendly (the most lenient I've seen).
+- **Total**: 33/40
+
+### Candidate 4: Neverwinter (ID 11)
+- **Genre Match**: 10. Action MMORPG, perfect match.
+- **Budget Fit**: 10. Free game.
+- **Rating Score**: 5 (unrated).
+- **Vibe Match**: 8. Story-driven D&D experience, dynamic action combat, community tools (Foundry). Appeals to fantasy fans and players seeking narrative depth.
+- **System Requirements**: Dual-core 2.0 GHz, 1 GB RAM, GeForce 6800 or ATI X850—moderately low-spec, decent support for older systems.
+- **Total**: 33/40
+
+### Candidate 5: Tales of Yore (ID 559)
+- **Genre Match**: 10. 2D MMORPG, perfect match.
+- **Budget Fit**: 10. Free game.
+- **Rating Score**: 5 (unrated).
+- **Vibe Match**: 7. Retro 2D aesthetic, crafting and exploration focused, slower paced. More relaxing than competitive.
+- **System Requirements**: Windows 10 64-bit, 2 GHz, 4 GB RAM—higher bar for low-spec (requires 4 GB RAM), less ideal for truly older hardware.
+- **Total**: 32/40
+
+### Candidate 6: Throne and Liberty (ID 590)
+- **Genre Match**: 10. MMORPG, perfect match.
+- **Budget Fit**: 10. Free game.
+- **Rating Score**: 5 (unrated).
+- **Vibe Match**: 7. Large-scale PvPvE, transformation mechanics, cross-platform. Community-focused but more demanding.
+- **System Requirements**: Core i5-6500, 8 GB RAM, GTX 960, 63 GB storage—NOT low-spec friendly. Does not fit the constraint.
+- **Total**: 27/40 (fails the low-spec requirement, lower recommendation weight)
+
+---
+
+## Quality Gate Check
+
+I have 5 candidates scoring 32-33/40, all well above the 25/40 threshold. All of the top 5 are excellent matches for free low-spec MMORPGs. Throne and Liberty does not meet the low-spec requirement despite scoring well on other dimensions.
+
+**Quality gate: PASS.** Proceeding to final recommendations.
+
+---
+
+# RECOMMENDATIONS
+
+**Interpreted request**: MMORPG, free, PC, low-spec hardware friendly
+
+**Assumptions**: None; "low-spec PC" clearly indicates older or modest hardware. Platform defaulted to Windows (standard for low-spec MMORPGs).
+
+---
+
+## #1: Cabal Online (Score: 33/40)
+**Source**: Free-to-Play Games Database
+**Genre**: MMORPG (Action/Fantasy) | **Price**: Free | **Rating**: Unrated
+
+- **Genre Match**: 10/10, exact MMORPG match.
+- **Budget Fit**: 10/10, completely free.
+- **Rating Score**: 5/10, unrated game (neutral assign).
+- **Vibe Match**: 8/10, fast-paced skill-based combat blends PvP, PvE, guild warfare, and world control. Engages both competitive and cooperative players.
+
+**Why this game**: Cabal Online is a mature, well-established F2P MMORPG from 2016 with extremely light system requirements (Pentium 4 2.0 GHz, 1 GB RAM, GeForce 6 series). Its fast-paced skill-based combat and rich PvP and PvE content create a dynamic multiplayer experience without demanding premium hardware. The guild system and nation wars foster community engagement.
+
+---
+
+## #2: Digimon Masters Online (Score: 33/40)
+**Source**: Free-to-Play Games Database
+**Genre**: MMORPG (Fantasy/Creature-Collection) | **Price**: Free | **Rating**: Unrated
+
+- **Genre Match**: 10/10, exact MMORPG match.
+- **Budget Fit**: 10/10, completely free.
+- **Rating Score**: 5/10, unrated game (neutral assign).
+- **Vibe Match**: 8/10, creature-collection mechanics, real-time battles, and anime-inspired setting appeal to casual and co-op-focused players.
+
+**Why this game**: Digimon Masters Online has the most forgiving system requirements of any candidate here (Intel Pentium 4, just 256 MB RAM, GeForce FX5200). It is ideal for truly low-spec machines. The Digimon franchise appeal, real-time co-op battles, and pet management offer a more relaxed, collection-focused multiplayer experience than pure combat-driven MMORPGs.
+
+---
+
+## #3: Neverwinter (Score: 33/40)
+**Source**: Free-to-Play Games Database
+**Genre**: MMORPG (Action/D&D Fantasy) | **Price**: Free | **Rating**: Unrated
+
+- **Genre Match**: 10/10, exact MMORPG match.
+- **Budget Fit**: 10/10, completely free.
+- **Rating Score**: 5/10, unrated game (neutral assign).
+- **Vibe Match**: 8/10, story-driven D&D fantasy, dynamic action combat, and community creation tools (Foundry) deliver narrative depth and social engagement.
+
+**Why this game**: Neverwinter is a long-established F2P MMORPG (since 2013) with solid low-spec support (dual-core 2.0 GHz, 1 GB RAM, GeForce 6800+). It stands out for story depth and D&D world immersion. The Foundry tool lets players create and share adventures, extending content and community. Best for players seeking narrative-driven multiplayer fantasy.
+
+---
+
+## FREE ALTERNATIVE (if you want ultra-minimal graphics and storage):
+**La Tale Evolved** (Score: 32/40)
+**Source**: Free-to-Play Games Database
+**Genre**: MMORPG (2D Fantasy) | **Price**: Free | **Rating**: Unrated
+
+- **Genre Match**: 10/10, exact MMORPG match.
+- **Budget Fit**: 10/10, completely free.
+- **Rating Score**: 5/10, unrated game (neutral assign).
+- **Vibe Match**: 7/10, 2D side-scroller with anime graphics, balanced PvP/Coliseum and casual exploration. Lower performance bar than 3D alternatives.
+
+**Why this game**: La Tale Evolved's 2D side-scrolling style requires minimal graphics power (GeForce4 MX, Pentium 4 2.0 GHz, 1 GB RAM, only 2 GB storage). Ideal if your PC is extremely resource-constrained. Anime-inspired art, customization focus, and fair cash-shop mechanics make it friendly for new and returning players.
+
+---
+
+## DECISION SUMMARY
+
+**Branch taken**: FREE BRANCH. Budget is $0, so I searched free games only and skipped search_deals (correct decision for free requests).
+
+**Tools called** (in order):
+1. search_free_games (category: mmorpg, platform: pc) - found 15 MMORPG candidates
+2. search_free_games (category: low-spec, platform: pc) - cross-validated for low-spec optimization
+3. get_free_game_details (IDs: 322, 11, 262, 300, 304, 559, 590) - retrieved full descriptions, screenshots, and system requirements
+
+**Tools skipped**:
+- search_deals: correctly skipped because budget is free ($0); no paid games needed.
+- search_game_by_title: correctly skipped because no anchor game was named by the user.
+
+**Broadening rounds**: 0. First search returned strong results across the free MMORPG category; no broadening was needed.
+
+**Price check**: Not applicable (all games are free).
+
+**Searched 15 games, filtered to 5 strong candidates** (scored 32-33/40, far above the 25/40 gate). The top pick, Cabal Online, scores 33/40, tied with two close runners (Digimon Masters Online and Neverwinter) but differentiated by its fast-paced skill-based combat and mature guild warfare system.
+
+**Key differentiator**: Cabal Online balances the lowest-spec performance bar with the richest end-game content (PvP, nation wars, guild control). Digimon Masters Online is the best pure low-spec choice if your hardware is extremely constrained. Neverwinter is the best for story-seekers. All three run on hardware from the early 2000s with minimal bloat.

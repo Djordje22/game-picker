@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game Picker</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-title">
+        <span class="header-icon">&#9654;</span>
+        <h1>GAME PICKER</h1>
+      </div>
+    </div>
+  </header>
+
+  <main>
+
+    <!-- Input -->
+    <section id="input-section" class="card">
+      <div class="prompt-heading">What kind of game do you want to play?</div>
+      <div class="prompt-subheading">Describe it in your own words. The agent interprets your request, picks its own tool path, and reasons through the game APIs to find your best matches.</div>
+      <form id="preferences-form">
+
+        <label class="field prompt-field">
+          <span class="field-label">Your request</span>
+          <textarea id="pref-prompt" name="prompt" rows="3" required
+            placeholder="e.g. something cozy like Stardew Valley under $15, or a free MMORPG for a low-spec PC"></textarea>
+        </label>
+
+        <details class="hints-toggle">
+          <summary>Optional hints</summary>
+          <div class="hints-note">Only set these if you want to pin a preference. Anything left empty is decided by the agent from your request.</div>
+          <div class="field-grid">
+
+          <label class="field">
+            <span class="field-label">Genre</span>
+            <select id="pref-genre" name="genre">
+              <option value="" selected>Not specified</option>
+              <option value="mmorpg">MMORPG</option>
+              <option value="shooter">Shooter</option>
+              <option value="strategy">Strategy</option>
+              <option value="moba">MOBA</option>
+              <option value="action-rpg">Action RPG</option>
+              <option value="racing">Racing</option>
+              <option value="sports">Sports</option>
+              <option value="fighting">Fighting</option>
+              <option value="battle-royale">Battle Royale</option>
+              <option value="card">Card</option>
+              <option value="survival">Survival</option>
+              <option value="horror">Horror</option>
+              <option value="fantasy">Fantasy</option>
+              <option value="sci-fi">Sci-Fi</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field-label">Budget</span>
+            <select id="pref-budget" name="budget">
+              <option value="" selected>Not specified</option>
+              <option value="free">Free only</option>
+              <option value="10">Under $10</option>
+              <option value="20">Under $20</option>
+              <option value="30">Under $30</option>
+              <option value="60">Under $60</option>
+              <option value="any">Any price</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field-label">Platform</span>
+            <select id="pref-platform" name="platform">
+              <option value="" selected>Not specified</option>
+              <option value="pc">PC</option>
+              <option value="browser">Browser</option>
+              <option value="all">Any platform</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span class="field-label">Vibe</span>
+            <select id="pref-vibe" name="vibe">
+              <option value="" selected>Not specified</option>
+              <option value="relaxing">Relaxing</option>
+              <option value="competitive">Competitive</option>
+              <option value="story-driven">Story-driven</option>
+              <option value="social">Social / Co-op</option>
+              <option value="hardcore">Hardcore</option>
+            </select>
+          </label>
+
+          </div>
+        </details>
+
+        <button type="submit" id="submit-btn">
+          <span class="btn-text">Find Games</span>
+          <span class="btn-arrow">&rarr;</span>
+        </button>
+      </form>
+    </section>
+
+    <!-- Agent Trace (live reasoning loop) -->
+    <section id="trace-section" class="card" hidden>
+      <div class="card-label">Agent Trace &mdash; live reasoning loop</div>
+      <div id="trace-container"></div>
+    </section>
+
+    <!-- Results -->
+    <section id="results-section" class="card" hidden>
+      <div class="card-label">Recommendations</div>
+      <div id="results-container"></div>
+    </section>
+
+    <!-- Reset -->
+    <button id="reset-btn" class="reset-btn" hidden>Run Again</button>
+
+  </main>
+
+  <footer class="footer">
+    <span>Built with Claude API + FreeToGame + CheapShark</span>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
