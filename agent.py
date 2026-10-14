@@ -110,62 +110,100 @@ def run_agent(user_input: str, api_key: str) -> str:
     return "I ran out of steps before completing my analysis. Please try a more specific request."
 
 
-def run_agent_stream(user_input, api_key):
+def run_agent_step(messages: list, api_key: str):
     """
-    Streaming version of the agentic loop — yields event dicts.
+    ONE iteration of the agentic loop — yields event dicts.
 
-    Used by the web server to stream progress to the frontend in real time.
+    This is the same protocol the Netlify Function (netlify/functions/step.ts)
+    speaks, so the web frontend works identically against this dev server and
+    the deployed site. The caller owns the loop: it feeds the `messages` from
+    the final `step_done` event back in until `done` is true.
     """
     client = anthropic.Anthropic(api_key=api_key)
+
+    try:
+        response = client.messages.create(
+            model=MODEL,
+            max_tokens=4096,
+            system=SYSTEM_PROMPT,
+            tools=TOOL_SCHEMAS,
+            messages=messages,
+        )
+    except Exception as exc:
+        yield {"type": "error", "message": str(exc)}
+        return
+
+    has_tool_use = any(b.type == "tool_use" for b in response.content)
+    assistant_content = []
+    tool_results = []
+
+    for block in response.content:
+        if block.type == "text":
+            event_type = "thinking" if has_tool_use else "answer"
+            yield {"type": event_type, "text": block.text}
+            assistant_content.append({"type": "text", "text": block.text})
+
+        elif block.type == "tool_use":
+            yield {"type": "tool_call", "name": block.name, "input": block.input}
+            result = execute_tool(block.name, block.input)
+            yield {"type": "tool_result", "name": block.name, "preview": result[:500]}
+            assistant_content.append({
+                "type": "tool_use",
+                "id": block.id,
+                "name": block.name,
+                "input": block.input,
+            })
+            tool_results.append({
+                "type": "tool_result",
+                "tool_use_id": block.id,
+                "content": result,
+            })
+
+    next_messages = list(messages) + [{"role": "assistant", "content": assistant_content}]
+
+    if has_tool_use and tool_results:
+        next_messages.append({"role": "user", "content": tool_results})
+        yield {"type": "step_done", "done": False, "messages": next_messages}
+        return
+
+    yield {
+        "type": "step_done",
+        "done": True,
+        "messages": next_messages,
+        "stop_reason": response.stop_reason,
+    }
+
+
+def run_agent_stream(user_input, api_key):
+    """
+    Streaming version of the full agentic loop — yields event dicts.
+
+    Kept for the legacy /api/recommend endpoint; the web UI now uses the
+    per-step protocol (run_agent_step) so it can run on serverless hosting.
+    """
     messages = [{"role": "user", "content": user_input}]
     tool_calls = []  # every tool name called, in order — the run's decision trace
 
     for iteration in range(1, MAX_ITERATIONS + 1):
         yield {"type": "iteration_start", "iteration": iteration}
 
-        try:
-            response = client.messages.create(
-                model=MODEL,
-                max_tokens=4096,
-                system=SYSTEM_PROMPT,
-                tools=TOOL_SCHEMAS,
-                messages=messages,
-            )
-        except Exception as exc:
-            yield {"type": "error", "message": str(exc)}
+        done = False
+        for event in run_agent_step(messages, api_key):
+            if event["type"] == "step_done":
+                messages = event["messages"]
+                done = event["done"]
+                continue
+            if event["type"] == "tool_call":
+                tool_calls.append(event["name"])
+            if event["type"] == "error":
+                yield event
+                return
+            yield event
+
+        if done:
+            yield {"type": "run_summary", "iterations": iteration, "tool_calls": tool_calls}
+            yield {"type": "done", "iterations": iteration}
             return
-
-        has_tool_use = any(b.type == "tool_use" for b in response.content)
-        assistant_content = []
-        tool_results = []
-
-        for block in response.content:
-            if block.type == "text":
-                event_type = "thinking" if has_tool_use else "answer"
-                yield {"type": event_type, "text": block.text}
-                assistant_content.append(block)
-
-            elif block.type == "tool_use":
-                tool_calls.append(block.name)
-                yield {"type": "tool_call", "name": block.name, "input": block.input}
-                result = execute_tool(block.name, block.input)
-                yield {"type": "tool_result", "name": block.name, "preview": result[:500]}
-                assistant_content.append(block)
-                tool_results.append({
-                    "type": "tool_result",
-                    "tool_use_id": block.id,
-                    "content": result,
-                })
-
-        messages.append({"role": "assistant", "content": assistant_content})
-
-        if has_tool_use and tool_results:
-            messages.append({"role": "user", "content": tool_results})
-            continue
-
-        yield {"type": "run_summary", "iterations": iteration, "tool_calls": tool_calls}
-        yield {"type": "done", "iterations": iteration}
-        return
 
     yield {"type": "error", "message": "Max iterations reached"}
 

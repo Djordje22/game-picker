@@ -1,0 +1,25 @@
+[build]
+  command = "node scripts/gen-skill.mjs"
+  publish = "static"
+
+[build.environment]
+  NODE_VERSION = "22"
+  AWS_LAMBDA_JS_RUNTIME = "nodejs22.x"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# The frontend references /static/style.css and /static/app.js so the same
+# index.html works under the Flask dev server. On Netlify the "static" folder is
+# the site root, so map those paths back onto it.
+[[redirects]]
+  from = "/static/*"
+  to = "/:splat"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"

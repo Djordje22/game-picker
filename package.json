@@ -1,9 +1,24 @@
 {
   "name": "game-picker",
-  "version": "1.0.0",
-  "description": "Agentic Loop Demo — Game Recommendation Agent",
+  "version": "1.1.0",
+  "private": true,
+  "description": "Agentic Loop Demo: a game recommendation agent (Claude + FreeToGame + CheapShark)",
   "scripts": {
+    "build": "node scripts/gen-skill.mjs",
+    "typecheck": "npm run build && tsc --noEmit -p tsconfig.json",
+    "dev:web": "npm run build && netlify dev",
     "setup": "pip3 install -r requirements.txt -q",
     "dev": "pip3 install -r requirements.txt -q && python3 server.py"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.134.0"
+  },
+  "devDependencies": {
+    "@netlify/functions": "^6.0.2",
+    "@types/node": "^20.19.0",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=18.16"
   }
 }

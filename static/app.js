@@ -1,4 +1,12 @@
 // Game Picker Frontend
+//
+// The browser drives the agentic loop. Each POST to /api/step runs exactly one
+// iteration on the server (one Claude call + any tool executions), streams the
+// trace events back, and returns the updated conversation. We keep calling
+// until the agent produces a final answer or we hit the iteration cap.
+
+const MAX_ITERATIONS = 15;
+const STEP_ENDPOINT = '/api/step';
 
 const form = document.getElementById('preferences-form');
 const inputSection = document.getElementById('input-section');
@@ -60,38 +68,34 @@ async function startRun(prefs) {
   resetBtn.hidden = true;
   traceContainer.innerHTML = '';
 
+  const run = { messages: [], toolCalls: [], finished: false };
+
   try {
-    const response = await fetch('/api/recommend', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(prefs),
-    });
+    for (let iteration = 1; iteration <= MAX_ITERATIONS; iteration++) {
+      handleEvent({ type: 'iteration_start', iteration });
 
-    const reader = response.body.getReader();
-    const decoder = new TextDecoder();
-    let buffer = '';
+      const payload = run.messages.length
+        ? { messages: run.messages }
+        : { prompt: prefs.prompt, hints: prefs.hints };
 
-    while (true) {
-      const { value, done } = await reader.read();
-      if (done) break;
+      const outcome = await runStep(payload, run);
 
-      buffer += decoder.decode(value, { stream: true });
+      if (outcome.error) {
+        handleEvent({ type: 'error', message: outcome.error });
+        run.finished = true;
+        break;
+      }
 
-      const lines = buffer.split('\n');
-      buffer = lines.pop();
-
-      for (const line of lines) {
-        if (line.startsWith('data: ')) {
-          try {
-            const event = JSON.parse(line.slice(6));
-            handleEvent(event);
-          } catch (err) { /* skip malformed */ }
-        }
+      if (outcome.done) {
+        handleEvent({ type: 'run_summary', iterations: iteration, tool_calls: run.toolCalls });
+        handleEvent({ type: 'done', iterations: iteration });
+        run.finished = true;
+        break;
       }
     }
 
-    if (buffer.startsWith('data: ')) {
-      try { handleEvent(JSON.parse(buffer.slice(6))); } catch (err) { /* skip */ }
+    if (!run.finished) {
+      handleEvent({ type: 'error', message: 'Max iterations reached' });
     }
   } catch (err) {
     resultsSection.hidden = false;
@@ -101,6 +105,72 @@ async function startRun(prefs) {
 
   submitBtn.disabled = false;
   submitBtn.classList.remove('loading');
+}
+
+// One iteration: POST the conversation, consume the SSE stream, return the outcome.
+async function runStep(payload, run) {
+  const response = await fetch(STEP_ENDPOINT, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload),
+  });
+
+  const contentType = response.headers.get('content-type') || '';
+  if (!response.ok || !contentType.includes('text/event-stream')) {
+    let message = 'Server returned HTTP ' + response.status;
+    try {
+      const data = await response.json();
+      if (data && data.error) message = data.error;
+    } catch (err) { /* keep the generic message */ }
+    return { error: message };
+  }
+
+  const outcome = { done: false, error: null };
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+
+  const consume = (line) => {
+    if (!line.startsWith('data: ')) return;
+    let event;
+    try {
+      event = JSON.parse(line.slice(6));
+    } catch (err) {
+      return; // skip malformed
+    }
+
+    if (event.type === 'step_done') {
+      run.messages = event.messages || run.messages;
+      outcome.done = Boolean(event.done);
+      return;
+    }
+    if (event.type === 'error') {
+      outcome.error = event.message || 'Unknown error';
+      return;
+    }
+    if (event.type === 'tool_call') {
+      run.toolCalls.push(event.name);
+    }
+    handleEvent(event);
+  };
+
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+
+    buffer += decoder.decode(value, { stream: true });
+
+    const lines = buffer.split('\n');
+    buffer = lines.pop();
+    lines.forEach(consume);
+  }
+
+  if (buffer) consume(buffer);
+
+  if (!outcome.done && !outcome.error && run.messages.length === 0) {
+    outcome.error = 'The server closed the connection before finishing this step.';
+  }
+  return outcome;
 }
 
 // ---- Event Handlers ----
